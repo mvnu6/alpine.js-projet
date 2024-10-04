@@ -4,8 +4,22 @@
         <meta  charset="UTF-8">
         <meta name="" content="">
         <title>alpine.js</title>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <style></style>
     </head>
     <body>
-        
+        <div x-data="manuapp()" class="container">
+            <header>
+                <p> menu de restaurant </p>
+            </header>
+            <main>
+                <div>
+                    <button
+                    x-on:click="filter = 'all'"
+                    :class="{ 'active': filter === all }"
+                    class="category-button">tous</button>
+                </div>
+            </main>
+    
     </body>
 </html>
