@@ -1,92 +1,113 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta  charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>alpine.js</title>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-        <style>   
-            body {
-                font-family: Arial, sans-serif;
-                padding: 20px;
-            }
-            .category-button {
-                padding: 10px;
-                margin: 5px;
-                border: 1px solid #ddd;
-                cursor: pointer;
-            }
-            .category-button.active {
-                background-color: #007BFF;
-                color: white;
-            }
-            .menu-item {
-                margin: 10px 0;
-                padding: 10px;
-                border: 1px solid #ddd;
-            }
-        </style>
-    </head>
-    <body>
-        <div x-data="manuapp()" class="container">
-            <header>
-                <p> menu de restaurant </p>
-            </header>
-            <main>
-                <div>
-                    <button
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu de Restaurant</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>   
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: rgb(212, 114, 130);
+            text-align: center; /* Aligne le texte au centre */
+        }
+        header {
+            font-weight: bold; 
+            font-size: 24px;
+        }
+        .container {
+            margin-top: 20px; /* Espace entre le h1 et le conteneur */
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid rgb(0, 0, 0);
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            background-color: aqua;
+            color: black;
+            display: inline-block; /* Pour centrer le conteneur */
+        }
+        .category-button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #030303;
+            cursor: pointer;
+        }
+        .category-button.active {
+            background-color: red;
+            color: white;
+        }
+        .menu-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #000000;
+            background-color: white; /* Fond blanc pour les éléments du menu */
+            border-radius: 5px; /* Arrondi des coins des éléments de menu */
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: white;">Restaurant de Manu</h1> <!-- Titre en haut -->
+    <div x-data="menuapp()" class="container">
+        <header>
+            <p style="font-weight: bold; font-size: 24px;">Menu de Restaurant</p>
+        </header>
+        <main>
+            <div>
+                <button
                     x-on:click="filter = 'all'"
-                    :class="{ 'active': filter === all }"
-                    class="category-button">tous
-                    </button>
-                    <button
-                    x-on:click="filter  = 'entrée'"
-                    :class="{ 'active:  filter === 'entrée'}"
-                    class="category-button">entrée
-                    </button>
-                    <button 
+                    :class="{ 'active': filter === 'all' }"
+                    class="category-button">Tous
+                </button>
+                <button
+                    x-on:click="filter = 'entrée'"
+                    :class="{ 'active': filter === 'entrée' }"
+                    class="category-button">Entrées
+                </button>
+                <button 
                     x-on:click="filter = 'plat'" 
                     :class="{ 'active': filter === 'plat' }" 
                     class="category-button">Plats
-                    </button>
-                    <button 
+                </button>
+                <button 
                     x-on:click="filter = 'dessert'" 
                     :class="{ 'active': filter === 'dessert' }" 
                     class="category-button">Desserts
-                    </button>
-                </div>
-                <div>
-                    <template x-for="item in filteredMenu()" :key="item.name">
-                        <div class="menu-item">
-                            <h3 x-text="item.name"></h3>
-                            <p x-text="item.description"></p>
-                            <span x-text="item.price + ' €'"></span>
-                        </div>
-                    </template>
-                </div>
-            </main>
-        </div>
-        <script>
-            function menuapp() {
-                return {
-                    filter: 'all', // Filtre par défaut
-                    menu: [
-                        { name: 'Salade César', category: 'entrée', description: 'Salade avec poulet, croûtons, et sauce César', price: 12 },
-                        { name: 'Soupe à l\'oignon', category: 'entrée', description: 'Soupe traditionnelle française', price: 8 },
-                        { name: 'Steak frites', category: 'plat', description: 'Steak grillé avec frites', price: 20 },
-                        { name: 'Poulet rôti', category: 'plat', description: 'Poulet rôti avec légumes', price: 18 },
-                        { name: 'Tarte au citron', category: 'dessert', description: 'Tarte sucrée avec crème au citron', price: 7 },
-                        { name: 'Mousse au chocolat', category: 'dessert', description: 'Mousse légère au chocolat noir', price: 6 },
-                    ],
-                    // Fonction qui retourne le menu filtré
-                    filteredMenu() {
-                        if (this.filter === 'all') {
-                            return this.menu;
-                        } 
-                        return this.menu.filter(item => item.category === this.filter);
-                    }
-                };
-            }
-        </script>
-    </body>
+                </button>
+            </div>
+            <div>
+                <template x-for="item in filteredMenu()" :key="item.name">
+                    <div class="menu-item">
+                        <h3 x-text="item.name"></h3>
+                        <p x-text="item.description"></p>
+                        <span x-text="item.price + ' €'"></span>
+                    </div>
+                </template>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        function menuapp() {
+            return {
+                filter: 'all', 
+                menu: [
+                    { name: 'Salade César', category: 'entrée', description: 'Salade avec poulet, croûtons, et sauce César', price: 12 },
+                    { name: 'Soupe à l\'oignon', category: 'entrée', description: 'Soupe traditionnelle française', price: 8 },
+                    { name: 'Steak frites', category: 'plat', description: 'Steak grillé avec frites', price: 20 },
+                    { name: 'Poulet rôti', category: 'plat', description: 'Poulet rôti avec légumes', price: 18 },
+                    { name: 'Tarte au citron', category: 'dessert', description: 'Tarte sucrée avec crème au citron', price: 7 },
+                    { name: 'Mousse au chocolat', category: 'dessert', description: 'Mousse légère au chocolat noir', price: 6 },
+                ],
+                filteredMenu() {
+                    if (this.filter === 'all') {
+                        return this.menu;
+                    } 
+                    return this.menu.filter(item => item.category === this.filter);
+                }
+            };
+        }
+    </script>
+</body>
 </html>
