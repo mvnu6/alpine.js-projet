@@ -2,10 +2,30 @@
 <html>
     <head>
         <meta  charset="UTF-8">
-        <meta name="" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>alpine.js</title>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-        <style></style>
+        <style>   
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+            }
+            .category-button {
+                padding: 10px;
+                margin: 5px;
+                border: 1px solid #ddd;
+                cursor: pointer;
+            }
+            .category-button.active {
+                background-color: #007BFF;
+                color: white;
+            }
+            .menu-item {
+                margin: 10px 0;
+                padding: 10px;
+                border: 1px solid #ddd;
+            }
+        </style>
     </head>
     <body>
         <div x-data="manuapp()" class="container">
@@ -17,9 +37,56 @@
                     <button
                     x-on:click="filter = 'all'"
                     :class="{ 'active': filter === all }"
-                    class="category-button">tous</button>
+                    class="category-button">tous
+                    </button>
+                    <button
+                    x-on:click="filter  = 'entrée'"
+                    :class="{ 'active:  filter === 'entrée'}"
+                    class="category-button">entrée
+                    </button>
+                    <button 
+                    x-on:click="filter = 'plat'" 
+                    :class="{ 'active': filter === 'plat' }" 
+                    class="category-button">Plats
+                    </button>
+                    <button 
+                    x-on:click="filter = 'dessert'" 
+                    :class="{ 'active': filter === 'dessert' }" 
+                    class="category-button">Desserts
+                    </button>
+                </div>
+                <div>
+                    <template x-for="item in filteredMenu()" :key="item.name">
+                        <div class="menu-item">
+                            <h3 x-text="item.name"></h3>
+                            <p x-text="item.description"></p>
+                            <span x-text="item.price + ' €'"></span>
+                        </div>
+                    </template>
                 </div>
             </main>
-    
+        </div>
+        <script>
+            function menuapp() {
+                return {
+                    filter: 'all', // Filtre par défaut
+                    menu: [
+                        { name: 'Salade César', category: 'entrée', description: 'Salade avec poulet, croûtons, et sauce César', price: 12 },
+                        { name: 'Soupe à l\'oignon', category: 'entrée', description: 'Soupe traditionnelle française', price: 8 },
+                        { name: 'Steak frites', category: 'plat', description: 'Steak grillé avec frites', price: 20 },
+                        { name: 'Poulet rôti', category: 'plat', description: 'Poulet rôti avec légumes', price: 18 },
+                        { name: 'Tarte au citron', category: 'dessert', description: 'Tarte sucrée avec crème au citron', price: 7 },
+                        { name: 'Mousse au chocolat', category: 'dessert', description: 'Mousse légère au chocolat noir', price: 6 },
+                    ],
+                    // Fonction qui retourne le menu filtré
+                    filteredMenu() {
+                        if (this.filter === 'all') {
+                            return this.menu;
+                        } 
+                        return this.menu.filter(item => item.category === this.filter);
+                    }
+                };
+            }
+        </script>
     </body>
 </html>
